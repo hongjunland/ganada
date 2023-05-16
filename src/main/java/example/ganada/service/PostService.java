@@ -2,6 +2,7 @@ package example.ganada.service;
 
 import example.ganada.dto.post.CreatePostRequest;
 import example.ganada.dto.post.UpdatePostRequest;
+import example.ganada.entity.Comment;
 import example.ganada.entity.Post;
 import example.ganada.repository.PostRepository;
 import lombok.RequiredArgsConstructor;

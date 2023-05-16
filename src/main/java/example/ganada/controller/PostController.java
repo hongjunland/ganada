@@ -3,6 +3,7 @@ package example.ganada.controller;
 import example.ganada.dto.post.CreatePostRequest;
 import example.ganada.dto.post.UpdatePostRequest;
 import example.ganada.entity.Post;
+import example.ganada.service.CommentService;
 import example.ganada.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/posts")
 public class PostController {
     final private PostService postService;
+    final private CommentService commentService;
     @GetMapping
     public ResponseEntity<?> getPosts(){
         return ResponseEntity.ok(postService.findAllPost());
@@ -33,5 +35,10 @@ public class PostController {
     @DeleteMapping("/{postId}")
     public void deletePost(@PathVariable Long postId){
         postService.deletePost(postId);
+    }
+
+    @GetMapping("/{postId}/comments")
+    public ResponseEntity<?> getComments(@PathVariable Long postId){
+        return ResponseEntity.ok(commentService.findAllCommentsByPostId(postId));
     }
 }
