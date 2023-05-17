@@ -1,13 +1,12 @@
 package example.ganada.dto.post;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-public class UpdatePostRequest {
+@Builder
+public class UpdatePostRequest implements PostRequest{
     private String title;
     private String content;
 }
