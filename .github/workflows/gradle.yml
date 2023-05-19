@@ -48,6 +48,6 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ganada:latest
             docker stop $(docker ps -a -q)
-            docker run -d --log-driver=syslog -p 80:8080 ${{ secrets.ACCOUNT }}/ganada:latest
+            docker run -d --log-driver=syslog -p 80:8080 ${{ secrets.DOCKERHUB_USERNAME }}/ganada:latest
             docker rm $(docker ps --filter 'status=exited' -a -q)
             docker image prune -a -f
