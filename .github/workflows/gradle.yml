@@ -1,33 +1,24 @@
-name: Build and Deploy
+steps:
+  - name: Checkout code
+    uses: actions/checkout@v2
 
-on:
-  push:
-    branches:
-      - master
+  - name: Set up JDK
+    uses: actions/setup-java@v2
+    with:
+      java-version: '11'
+      distribution: 'adopt'
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+  - name: Build with Gradle
+    run: ./gradlew build --no-daemon
+    env:
+      GRADLE_OPTS: -Dorg.gradle.daemon=false
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-
-      - name: Build with Gradle
-        run: ./gradlew build --no-daemon
-
-      - name: Docker Build and Push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: hongjunland/ganada:latest
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
+  - name: Docker Build and Push
+    uses: docker/build-push-action@v2
+    with:
+      context: .
+      push: true
+      tags: hongjunland/ganada:latest
+    env:
+      DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
