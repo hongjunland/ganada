@@ -43,7 +43,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST_URL }}
-          username: ec2-user
+          username: ${{ secrets.ACCOUNT }}
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
             docker pull ${{ secrets.DOCKER_USERNAME }}/ganada:latest
