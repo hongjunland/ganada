@@ -46,7 +46,7 @@ jobs:
           username: ${{ secrets.ACCOUNT }}
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/ganada:latest
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ganada:latest
             docker stop $(docker ps -a -q)
             docker run -d --log-driver=syslog -p 80:8080 ${{ secrets.ACCOUNT }}/ganada:latest
             docker rm $(docker ps --filter 'status=exited' -a -q)
