@@ -6,6 +6,11 @@ import example.ganada.entity.Member;
 import example.ganada.mapper.MemberMapper;
 import example.ganada.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.config.annotation.authentication.configurers.provisioning.UserDetailsManagerConfigurer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -33,7 +38,7 @@ public class MemberService {
         return memberRepository.save(member);
     }
     public void deleteMember(Long id){
-        Member member = findById(id);
+        findById(id);
         memberRepository.deleteById(id);
     }
 
