@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @EntityListeners(AuditingEntityListener.class)
+@Table(name="comments")
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -9,6 +9,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
+import java.util.stream.Stream;
+
+import java.util.stream.Collectors;
 
 @Mapper
 public interface MemberMapper {

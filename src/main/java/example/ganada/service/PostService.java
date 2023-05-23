@@ -21,7 +21,7 @@ public class PostService {
         return post;
     }
 
-    public Post createPost(CreatePostRequest createPostRequest) {
+    public Post createPost(Long memberId, CreatePostRequest createPostRequest) {
         Post post = PostMapper.INSTANCE.toEntity(createPostRequest);
         return postRepository.save(post);
     }
