@@ -6,7 +6,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class UpdatePostRequest implements PostRequest{
+public class UpdatePostRequest extends PostRequest {
     private String title;
     private String content;
 }

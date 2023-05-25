@@ -1,4 +1,7 @@
 package example.ganada.dto.post;
 
-public interface PostRequest{
+import example.ganada.entity.Member;
+
+public abstract class PostRequest{
+    protected Member member;
 }

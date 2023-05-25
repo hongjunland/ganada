@@ -25,6 +25,8 @@ public class Member {
     private String firstName;
     @Column(name = "last_name")
     private String lastName;
+    @Column(name="nickname")
+    private String nickname;
 //    @ManyToMany(fetch = FetchType.EAGER)
 //    @JoinTable(
 //            name = "member_authorities",

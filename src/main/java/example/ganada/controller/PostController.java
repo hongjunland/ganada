@@ -1,6 +1,7 @@
 package example.ganada.controller;
 
 import example.ganada.dto.post.CreatePostRequest;
+import example.ganada.dto.post.CreatePostResponse;
 import example.ganada.dto.post.UpdatePostRequest;
 import example.ganada.entity.Member;
 import example.ganada.entity.Post;
@@ -10,6 +11,8 @@ import example.ganada.service.PostService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,8 +29,8 @@ public class PostController {
     @PostMapping
     public ResponseEntity<?> createPost(@RequestBody CreatePostRequest createPostRequest){
         Long memberId = authService.extractEmailFromToken();
-        Post post = postService.createPost(memberId, createPostRequest);
-        return ResponseEntity.ok(post);
+        CreatePostResponse response = postService.createPost(memberId, createPostRequest);
+        return ResponseEntity.ok(response);
     }
     @GetMapping("/{postId}")
     public ResponseEntity<?> getPost(@PathVariable Long postId){

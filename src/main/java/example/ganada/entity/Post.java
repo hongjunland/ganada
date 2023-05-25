@@ -30,4 +30,7 @@ public class Post {
     @LastModifiedDate
     @Column(name="updated_at", nullable = false)
     private LocalDateTime updatedAt;
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
 }
