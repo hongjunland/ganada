@@ -48,7 +48,7 @@ public class AuthService implements UserDetailsService {
         Member member = memberService.findByEmail(username);
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        UserDetails user = new MemberDetail(member.getId().toString(), member.getPassword(), authorities);
+        UserDetails user = new MemberDetail(member.getMemberId().toString(), member.getPassword(), authorities);
         return user;
     }
 

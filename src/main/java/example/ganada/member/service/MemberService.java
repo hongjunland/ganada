@@ -1,12 +1,14 @@
 package example.ganada.member.service;
 
 import example.ganada.member.dto.CreateMemberRequest;
+import example.ganada.member.dto.MemberResponse;
 import example.ganada.member.dto.UpdateMemberRequest;
 import example.ganada.member.entity.Member;
 import example.ganada.member.mapper.MemberMapper;
 import example.ganada.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -27,10 +29,11 @@ public class MemberService {
         return member;
     }
 
-    public Member updateMember(Long id, UpdateMemberRequest updateMemberRequest){
+    @Transactional
+    public MemberResponse updateMember(Long id, UpdateMemberRequest updateMemberRequest){
         Member member = findById(id);
-        MemberMapper.INSTANCE.updateMemberFromDto(member, updateMemberRequest);
-        return memberRepository.save(member);
+        MemberMapper.INSTANCE.update(updateMemberRequest, member);
+        return MemberMapper.INSTANCE.toDto(member);
     }
     public void deleteMember(Long id){
         findById(id);
