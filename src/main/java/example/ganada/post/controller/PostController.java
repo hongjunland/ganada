@@ -23,7 +23,7 @@ public class PostController {
     }
     @PostMapping
     public ResponseEntity<?> createPost(@RequestBody CreatePostRequest createPostRequest){
-        Long memberId = authService.extractEmailFromToken();
+        Long memberId = authService.extractMemberIdFromToken();
         CreatePostResponse response = postService.createPost(memberId, createPostRequest);
         return ResponseEntity.ok(response);
     }

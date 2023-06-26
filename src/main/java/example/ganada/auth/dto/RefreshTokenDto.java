@@ -1,8 +1,8 @@
 package example.ganada.auth.dto;
 
 
+import example.ganada.member.entity.Member;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
 
@@ -11,9 +11,8 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Token {
-    private String grantToken;
-    private String accessToken;
+public class RefreshTokenDto {
+    private Member member;
     private String refreshToken;
-    private Instant expiration;
+    private Instant expireDate;
 }

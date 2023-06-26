@@ -20,11 +20,11 @@ public interface MemberMapper {
     Member toEntity(CreateMemberRequest createMemberRequest);
 
     @Mappings({
-            @Mapping(target = "memberId", ignore = true),
-            @Mapping(target = "createdAt", ignore = true),
-            @Mapping(target = "updatedAt", ignore = true),
+//            @Mapping(target = "memberId", ignore = true),
+//            @Mapping(target = "createdAt", ignore = true),
+//            @Mapping(target = "updatedAt", ignore = true),
     })
-    MemberResponse toDto(@MappingTarget Member member);
+    MemberResponse toDto(Member member);
 
     @Mappings({
             @Mapping(target = "email", ignore = true),
@@ -33,7 +33,7 @@ public interface MemberMapper {
             @Mapping(target = "lastName", ignore = true),
             @Mapping(target = "nickname", ignore = true)
     })
-    void update(UpdateMemberRequest dto, @MappingTarget Member member);
+    void update(@MappingTarget Member member, UpdateMemberRequest dto);
 
     @AfterMapping
     default void handleNonNullValues(UpdateMemberRequest dto, @MappingTarget Member entity) {

@@ -1,9 +1,11 @@
 package example.ganada.auth.provider;
 
+import example.ganada.auth.dto.RefreshTokenRequest;
 import example.ganada.auth.dto.Token;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Component;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -26,30 +29,49 @@ import java.util.stream.Collectors;
 @Component
 public class TokenProvider {
     private final Key key;
+    @Getter
+    @Value("${jwt.expiration.access}")
+    private Long expirationAccessToken;
+    @Getter
+    @Value("${jwt.expiration.refresh}")
+    private Long expirationRefreshToken;
     public TokenProvider(@Value("${jwt.secret}") String secretKey){
         byte[] secretByteKey = DatatypeConverter.parseBase64Binary(secretKey);
         this.key = Keys.hmacShaKeyFor(secretByteKey);
     }
 
+//    로그인시 발행토큰
     public Token generateToken(Authentication auth){
-        String authorities = auth.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
-        String accessToken = Jwts.builder()
-                .setSubject(auth.getName())
-                .claim("auth", authorities)
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
-        String refreshToken = Jwts.builder()
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 36))
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
         return Token.builder()
                 .grantToken("Bearer")
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .accessToken(generateAccessToken(auth))
+                .refreshToken(generateRefreshToken())
+                .expiration(Instant.now().plusMillis(expirationAccessToken))
                 .build();
+    }
+
+//    Access Token 발행
+    public String generateAccessToken(Authentication auth){
+        String authorities = getAuthorities(auth);
+        return Jwts.builder()
+                .setSubject(auth.getName())
+                .claim("auth", authorities)
+                .setExpiration(new Date(System.currentTimeMillis() + expirationAccessToken))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+// Refresh Token 발행
+    public String generateRefreshToken(){
+        return Jwts.builder()
+                .setExpiration(new Date(System.currentTimeMillis() + expirationRefreshToken))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    private String getAuthorities(Authentication auth){
+        return auth.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
     }
 
     public Authentication getAuthentication(String accessToken){

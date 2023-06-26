@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @SuperBuilder
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -27,5 +28,4 @@ public abstract class BaseEntity {
     @Column(name="updated_at")
     protected LocalDateTime updatedAt;
 
-    protected abstract void update(Object dto);
 }

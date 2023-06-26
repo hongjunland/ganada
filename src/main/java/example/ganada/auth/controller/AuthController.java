@@ -1,14 +1,13 @@
 package example.ganada.auth.controller;
 
 import example.ganada.auth.dto.LoginAuthRequest;
+import example.ganada.auth.dto.RefreshTokenDto;
+import example.ganada.auth.dto.RefreshTokenRequest;
 import example.ganada.member.dto.CreateMemberRequest;
 import example.ganada.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,5 +21,17 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody CreateMemberRequest memberRequest){
         return ResponseEntity.ok(authService.signup(memberRequest));
+    }
+
+//    test
+    @GetMapping("/refreshToken")
+    public ResponseEntity<?> getRefresh(){
+        return ResponseEntity.ok(authService.getRefresh());
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<?> reissue(@RequestBody RefreshTokenRequest refreshTokenRequest){
+        Long memberId = authService.extractMemberIdFromToken();
+        return ResponseEntity.ok(authService.reissue(memberId, refreshTokenRequest));
     }
 }

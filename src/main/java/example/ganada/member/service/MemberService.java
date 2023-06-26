@@ -32,7 +32,7 @@ public class MemberService {
     @Transactional
     public MemberResponse updateMember(Long id, UpdateMemberRequest updateMemberRequest){
         Member member = findById(id);
-        MemberMapper.INSTANCE.update(updateMemberRequest, member);
+        MemberMapper.INSTANCE.update(member, updateMemberRequest);
         return MemberMapper.INSTANCE.toDto(member);
     }
     public void deleteMember(Long id){
