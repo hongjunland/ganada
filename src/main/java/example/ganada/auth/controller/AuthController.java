@@ -21,7 +21,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(loginAuthRequest));
     }
     @PostMapping("/logout")
-//    public ResponseEntity<Void> logout(@RequestBody RefreshTokenRequest refreshTokenRequest){
     public void logout(){
         Long memberId = authService.extractMemberIdFromToken();
         authService.logout(memberId);
