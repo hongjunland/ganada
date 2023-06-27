@@ -1,11 +1,28 @@
 package example.ganada.auth.repository;
 
-import example.ganada.auth.entity.RefreshToken;
-import org.springframework.data.jpa.repository.JpaRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
-public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
-    Optional<RefreshToken> findByMember_MemberId(Long id);
-    Optional<RefreshToken> findByRefreshTokenAndMemberMemberId(String token, Long memberId);
+@Repository
+@RequiredArgsConstructor
+public class RefreshTokenRepository {
+    private final RedisTemplate<String, String> redisTemplate;
+    private final String PRE_FIX = "refreshToken:";
+
+    public void saveRefreshToken(String memberId, String refreshToken) {
+        redisTemplate.opsForValue().set(PRE_FIX + memberId, refreshToken);
+    }
+
+    public String getRefreshToken(String memberId) {
+        return redisTemplate.opsForValue().get(PRE_FIX + memberId);
+    }
+
+    public void expire(String memberId, Long exp) {
+        redisTemplate.expire(PRE_FIX + memberId, exp, TimeUnit.MILLISECONDS);
+    }
+
 }

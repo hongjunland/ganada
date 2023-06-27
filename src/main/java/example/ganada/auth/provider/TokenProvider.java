@@ -29,12 +29,10 @@ import java.util.stream.Collectors;
 @Component
 public class TokenProvider {
     private final Key key;
-    @Getter
     @Value("${jwt.expiration.access}")
-    private Long expirationAccessToken;
-    @Getter
+    private Long accessTokenExp;
     @Value("${jwt.expiration.refresh}")
-    private Long expirationRefreshToken;
+    private Long refreshTokenExp;
     public TokenProvider(@Value("${jwt.secret}") String secretKey){
         byte[] secretByteKey = DatatypeConverter.parseBase64Binary(secretKey);
         this.key = Keys.hmacShaKeyFor(secretByteKey);
@@ -46,7 +44,7 @@ public class TokenProvider {
                 .grantToken("Bearer")
                 .accessToken(generateAccessToken(auth))
                 .refreshToken(generateRefreshToken())
-                .expiration(Instant.now().plusMillis(expirationAccessToken))
+                .expiration(Instant.now().plusMillis(accessTokenExp))
                 .build();
     }
 
@@ -56,14 +54,14 @@ public class TokenProvider {
         return Jwts.builder()
                 .setSubject(auth.getName())
                 .claim("auth", authorities)
-                .setExpiration(new Date(System.currentTimeMillis() + expirationAccessToken))
+                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExp))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 // Refresh Token 발행
     public String generateRefreshToken(){
         return Jwts.builder()
-                .setExpiration(new Date(System.currentTimeMillis() + expirationRefreshToken))
+                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExp))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
