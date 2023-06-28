@@ -40,5 +40,4 @@ application.yml
 
 
 ### Docker ###
-docker-compose.yml
 .env
