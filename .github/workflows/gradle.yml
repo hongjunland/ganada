@@ -53,7 +53,7 @@ jobs:
           script: |
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/ganada:latest
             docker stop $(docker ps -a -q)
-            docker run -d --log-driver=syslog -p 80:8080 ${{ secrets.DOCKERHUB_USERNAME }}/ganada:latest
+            docker run -d --log-driver=syslog -p 80:8080 --name ganada ${{ secrets.DOCKERHUB_USERNAME }}/ganada:latest
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/redis-server:latest
             docker run -d -p 6379:6379 --name redis-server ${{ secrets.DOCKERHUB_USERNAME }}/redis-server:latest
             docker rm $(docker ps --filter 'status=exited' -a -q)
