@@ -20,6 +20,7 @@ public class HttpSecurityConfig {
 //                        "/configuration/security", "/swagger-ui.html", "/webjars/**", "/swagger/**")
                 .antMatchers("/static/css/**, /static/js/**, *.ico")
                 .antMatchers("/api/v1/auth/login", "/api/v1/auth/signup")
+                .antMatchers("/api/v1/members/**")
                 ;
     }
 

@@ -30,7 +30,8 @@ public class AuthService implements UserDetailsService {
     private final AuthenticationManagerBuilder authBuilder;
     private final BCryptPasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-    private final RefreshTokenRepository refreshRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
+
     @Value("${jwt.expiration.access}")
     private Long accessTokenExp;
     @Value("${jwt.expiration.refresh}")
@@ -41,9 +42,8 @@ public class AuthService implements UserDetailsService {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(loginAuthRequest.getEmail(), loginAuthRequest.getPassword());
         Authentication auth = authBuilder.getObject().authenticate(authToken);
         Token token = tokenProvider.generateToken(auth);
-        refreshRepository.saveRefreshToken(member.getMemberId().toString(), token.getRefreshToken());
-        refreshRepository.expire(member.getMemberId().toString(), refreshTokenExp);
-
+        refreshTokenRepository.saveRefreshToken(member.getMemberId().toString(), token.getRefreshToken());
+        refreshTokenRepository.expire(member.getMemberId().toString(), refreshTokenExp);
         return token;
     }
 
@@ -74,7 +74,7 @@ public class AuthService implements UserDetailsService {
 
     public RefreshTokenResponse reissue(Long memberId, RefreshTokenRequest refreshTokenRequest) {
         Member member = memberService.findById(memberId);
-        String refreshToken = refreshRepository.getRefreshToken(member.getMemberId().toString());
+        String refreshToken = refreshTokenRepository.getRefreshToken(member.getMemberId().toString());
         if (!refreshTokenRequest.getRefreshToken().equals(refreshToken) || !tokenProvider.isValidToken(refreshToken)) {
             throw new RuntimeException("Refresh Token is not Valid");
         }
@@ -90,6 +90,6 @@ public class AuthService implements UserDetailsService {
 
     public void logout(Long memberId) {
         Member member = memberService.findById(memberId);
-        refreshRepository.expire(member.getMemberId().toString(), 0L);
+        refreshTokenRepository.expire(member.getMemberId().toString(), 0L);
     }
 }
