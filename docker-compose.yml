@@ -1,0 +1,12 @@
+version: '3'
+services:
+  ganada:
+    image: ${DOCKERHUB_USERNAME}/ganada:latest
+    ports:
+      - "80:8080"
+    depends_on:
+      - redis-server
+  redis-server:
+    image: ${DOCKERHUB_USERNAME}/redis-server:latest
+    ports:
+      - "6379:6379"
