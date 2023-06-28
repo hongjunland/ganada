@@ -37,3 +37,8 @@ application.yml
 
 ### VS Code ###
 .vscode/
+
+
+### Docker ###
+docker-compose.yml
+.env
