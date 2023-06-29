@@ -25,11 +25,6 @@ jobs:
       - run: echo "${{ secrets.API_ENV }}" > ./src/main/resources/application.yml
       - run: cat ./src/main/resources/application.yml
 
-      - name: Setting Environment File
-        run: echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" > ./.env
-
-      - run: echo "${{ secrets.DOCKER_COMPOSE }}" > ./docker-compose.yml
-
       - name: Grant execute permission to Gradle wrapper
         run: chmod +x gradlew
 
@@ -56,6 +51,8 @@ jobs:
           username: ${{ secrets.ACCOUNT }}
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
+            echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" > .env
+            echo "${{ secrets.DOCKER_COMPOSE }}" > docker-compose.yml
             docker-compose pull
             docker-compose stop
             docker-compose up -d
