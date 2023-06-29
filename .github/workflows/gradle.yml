@@ -51,8 +51,9 @@ jobs:
           username: ${{ secrets.ACCOUNT }}
           key: ${{ secrets.PRIVATE_KEY }}
           script: |
-            echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" > .env
-            echo "${{ secrets.DOCKER_COMPOSE }}" > docker-compose.yml
+            echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" > app/.env
+            echo "${{ secrets.DOCKER_COMPOSE }}" > app/docker-compose.yml
+            cd app
             docker-compose pull
             docker-compose stop
             docker-compose up -d
