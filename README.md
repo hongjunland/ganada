@@ -4,6 +4,6 @@
 
 * Language: Java 11
 * Framework: Spring Boot 2.x
-* DBMS: MYSQL
+* DBMS: MYSQL, redis
 * CI/CD: Github actions, DockerHub, AWS EC2
 * Dependencies: Lombok, Swagger 3.0, JWT, Map Struct,...
