@@ -1,4 +1,4 @@
-package example.ganada.config;
+package example.ganada.common.config;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

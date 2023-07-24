@@ -1,9 +1,8 @@
 package example.ganada.auth.controller;
 
 import example.ganada.auth.dto.LoginAuthRequest;
-import example.ganada.auth.dto.RefreshTokenDto;
 import example.ganada.auth.dto.RefreshTokenRequest;
-import example.ganada.common.BaseResponse;
+import example.ganada.common.annotaion.CurrentUser;
 import example.ganada.member.dto.CreateMemberRequest;
 import example.ganada.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +20,8 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(loginAuthRequest));
     }
     @PostMapping("/logout")
-    public void logout(){
-        Long memberId = authService.extractMemberIdFromToken();
+    public void logout(@CurrentUser Long memberId){
+//        Long memberId = authService.extractMemberIdFromToken();
         authService.logout(memberId);
     }
 
@@ -32,8 +31,8 @@ public class AuthController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<?> reissue(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-        Long memberId = authService.extractMemberIdFromToken();
+    public ResponseEntity<?> reissue(@RequestBody RefreshTokenRequest refreshTokenRequest ,@CurrentUser Long memberId) {
+//        Long memberId = authService.extractMemberIdFromToken();
         return ResponseEntity.ok(authService.reissue(memberId, refreshTokenRequest));
     }
 }

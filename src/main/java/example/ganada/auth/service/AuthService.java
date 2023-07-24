@@ -62,15 +62,15 @@ public class AuthService implements UserDetailsService {
         return user;
     }
 
-    // Token -> member id
-    public Long extractMemberIdFromToken() {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication);
-        if (authentication == null || authentication.getName() == null) {
-            throw new RuntimeException("토큰정보가 유효하지 않습니다.");
-        }
-        return Long.parseLong(authentication.getName());
-    }
+//    // Token -> member id
+//    public Long extractMemberIdFromToken() {
+//        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        System.out.println(authentication);
+//        if (authentication == null || authentication.getName() == null) {
+//            throw new RuntimeException("토큰정보가 유효하지 않습니다.");
+//        }
+//        return Long.parseLong(authentication.getName());
+//    }
 
     public RefreshTokenResponse reissue(Long memberId, RefreshTokenRequest refreshTokenRequest) {
         Member member = memberService.findById(memberId);

@@ -1,6 +1,6 @@
 package example.ganada.member.dto;
 
-import example.ganada.common.BaseResponseDto;
+import example.ganada.common.domain.BaseResponseDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

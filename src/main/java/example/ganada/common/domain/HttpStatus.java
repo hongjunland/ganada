@@ -1,4 +1,4 @@
-package example.ganada.common;
+package example.ganada.common.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

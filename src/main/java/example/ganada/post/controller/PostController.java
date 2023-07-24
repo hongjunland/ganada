@@ -1,5 +1,6 @@
 package example.ganada.post.controller;
 
+import example.ganada.common.annotaion.CurrentUser;
 import example.ganada.post.dto.CreatePostRequest;
 import example.ganada.post.dto.CreatePostResponse;
 import example.ganada.post.dto.UpdatePostRequest;
@@ -16,14 +17,12 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
     final private PostService postService;
     final private CommentService commentService;
-    final private AuthService authService;
     @GetMapping
     public ResponseEntity<?> getPosts(){
         return ResponseEntity.ok(postService.findAllPost());
     }
     @PostMapping
-    public ResponseEntity<?> createPost(@RequestBody CreatePostRequest createPostRequest){
-        Long memberId = authService.extractMemberIdFromToken();
+    public ResponseEntity<?> createPost(@RequestBody CreatePostRequest createPostRequest, @CurrentUser Long memberId){
         CreatePostResponse response = postService.createPost(memberId, createPostRequest);
         return ResponseEntity.ok(response);
     }

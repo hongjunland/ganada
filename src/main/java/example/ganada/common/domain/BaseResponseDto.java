@@ -1,16 +1,16 @@
-package example.ganada.common;
+package example.ganada.common.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
-import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
-
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,8 +18,7 @@ import java.time.LocalDateTime;
 @Setter
 @SuperBuilder
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
-public abstract class BaseEntity {
+public abstract class BaseResponseDto {
     @CreatedDate
     @Column(name="created_at")
     protected LocalDateTime createdAt;
@@ -27,5 +26,4 @@ public abstract class BaseEntity {
     @LastModifiedDate
     @Column(name="updated_at")
     protected LocalDateTime updatedAt;
-
 }

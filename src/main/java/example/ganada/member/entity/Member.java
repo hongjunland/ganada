@@ -1,6 +1,6 @@
 package example.ganada.member.entity;
 
-import example.ganada.common.BaseEntity;
+import example.ganada.common.domain.BaseEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
